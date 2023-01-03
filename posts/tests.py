@@ -47,7 +47,29 @@ class HomepageTest(TestCase):
         """
             Duas formas diferentes de fazer.
             Retornam resultados diferentes
+                - response = self.client.get(reverse('posts:home'))
                 - Usando o assertIn, retorna mesmo o resultado mesmo não sendo igual        
         """
         self.assertIn('sample post 1', response.content.decode('utf-8'))
         self.assertContains(response, 'sample post 2')
+
+
+class DetailPageTest(TestCase):
+    def setUp(self) -> None:
+        self.post = Post.objects.create(
+            title='Learn Javascript in the 23 hour course',
+            body='this is a beginner course on JS'
+        )
+
+    def test_detail_page_returns_correct_response(self):
+        response = self.client.get(reverse('posts:post-detail', kwargs={'id': self.post.id}))
+
+        self.assertEqual(response.status_code, HTTPStatus.OK)
+        self.assertTemplateUsed(response, 'posts/detail.html')
+
+    def test_detail_page_returns_correct_content(self):
+        response = self.client.get(reverse('posts:post-detail', kwargs={'id': self.post.id}))
+
+        self.assertContains(response, self.post.title)
+        self.assertContains(response, self.post.body)
+        # self.assertContains(response, self.post.created_at)

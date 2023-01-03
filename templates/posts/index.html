@@ -1,24 +1,16 @@
-<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    <h1>Bem vindo ao blog</h1>
+{% extends 'base.html' %}
 
+{% block content %}
+    <h1>Bem vindo ao blog</h1>
     <h2>Esses são os últimos posts</h2>
-    
+
     {% for post in posts %}
         <div class="post">
-            <a href="">{{ post.title }}</a>
+            <a href="{% url 'posts:post-detail' post.id %}">{{ post.title }}</a>
             <p>{{ post.body|truncatewords:30 }}</p>
             <p>{{ post.created_at }}</p>
             <hr>
         </div>
     {% endfor %}
-    
-</body>
-</html>
+
+{% endblock content %}
