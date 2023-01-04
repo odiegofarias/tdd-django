@@ -32,7 +32,7 @@ class AccountCreationTest(TestCase):
         self.assertTrue('password1' in self.form_class.Meta.fields)
         self.assertTrue('password2' in self.form_class.Meta.fields)
 
-
+        # Dados para serem enviados no formulário
         sample_data = {
             'email': 'test@email.com',
             'username': 'test01',
@@ -40,6 +40,8 @@ class AccountCreationTest(TestCase):
             'password2': 'passw0rd001',
         }
 
+        # POSTando os dados no formulário
         form = self.form_class(sample_data)
 
+        # Verificando se o form é válido
         self.assertTrue(form.is_valid())
