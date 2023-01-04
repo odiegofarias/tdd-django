@@ -8,12 +8,12 @@
 </head>
 <body>
     <header>
-        <a href="{% url 'posts:index' %}">Página inicial</a>
+        <a href="{% url 'posts:index' %}">Página inicial | </a>
+        <a href="{% url 'accounts:signup-view' %}">Registrar |</a>
+        <a href="#">Entrar</a>
     </header>
 
     {% block content %}
-
-
 
     {% endblock content %}
 

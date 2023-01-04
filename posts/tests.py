@@ -40,15 +40,18 @@ class HomepageTest(TestCase):
         )
 
     def test_homepage_returns_correct_response(self):
-        response = self.client.get('/')
+        response = self.client.get(reverse('posts:index'))
         view = resolve(reverse('posts:index'))
+        url = reverse('posts:index')
 
         self.assertIs(view.func, views.index)
+        self.assertEqual(url, '/posts/')
         self.assertTemplateUsed(response, 'posts/index.html')
         self.assertEqual(response.status_code, HTTPStatus.OK)
+        self.assertContains(response, self.user)
         
     def test_homepage_returns_post_list(self):
-        response = self.client.get('/')
+        response = self.client.get(reverse('posts:index'))
 
         """
             Duas formas diferentes de fazer.
@@ -71,9 +74,13 @@ class DetailPageTest(TestCase):
 
     def test_detail_page_returns_correct_response(self):
         response = self.client.get(reverse('posts:post-detail', kwargs={'id': self.post.id}))
+        url = reverse('posts:post-detail', kwargs={'id': self.post.id})
+        view = resolve(reverse('posts:post-detail', kwargs={'id': self.post.id}))
 
         self.assertEqual(response.status_code, HTTPStatus.OK)
         self.assertTemplateUsed(response, 'posts/detail.html')
+        self.assertEqual(url, f'/posts/post/{self.post.id}/')
+        self.assertEqual(view.func, views.post_detail)
 
     def test_detail_page_returns_correct_content(self):
         response = self.client.get(reverse('posts:post-detail', kwargs={'id': self.post.id}))

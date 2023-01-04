@@ -8,7 +8,8 @@
         <div class="post">
             <a href="{% url 'posts:post-detail' post.id %}">{{ post.title }}</a>
             <p>{{ post.body|truncatewords:30 }}</p>
-            <p>{{ post.created_at }}</p>
+            <p>Postado por: <a href="">{{ post.author }}</a></p>
+            <small> {{ post.created_at }}</p></small>
             <hr>
         </div>
     {% endfor %}
