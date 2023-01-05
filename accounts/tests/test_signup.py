@@ -64,4 +64,6 @@ class AccountCreationTest(TestCase):
         
         # Verifica que o usuário é criado
         self.assertEqual(User.objects.count(), 1)
+
+    # TODO: Verificar se está redirecionando para a página de LOGIN depois do Registro
         
