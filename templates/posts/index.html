@@ -3,6 +3,10 @@
 {% block content %}
     <h1>Bem vindo ao blog</h1>
     <h2>Esses são os últimos posts</h2>
+    {% if user.is_authenticated %}
+        <h3>Bem vindo(a) {{ request.user }}</h3>
+    {% endif %}
+    
 
     {% for post in posts %}
         <div class="post">
