@@ -20,9 +20,16 @@ class PostCreationTest(TestCase):
         self.form_class = PostCreationForm
         self.title = 'Sample Title'
         self.body = 'Sample Body Test'
+
+        User.objects.create_user(
+            username = 'testeuser',
+            email = 'testuser@email.com',
+            password = 'Password@123'
+        )
         
 
     def test_post_creation_page_exists(self):
+        self.client.login(username = 'testeuser', password = 'Password@123')
         response = self.client.get(self.url)
 
         self.assertEqual(response.status_code, HTTPStatus.OK)
@@ -69,3 +76,10 @@ class PostCreationTest(TestCase):
         # Verifica se o Post foi efetivamente criado com a contagem de POST.
         self.assertEqual(Post.objects.count(), 1)
 
+    def test_post_creation_requires_login(self):
+        """ Teste para verificar se o redirecionamento leva para a URL correta """
+        response = self.client.get(self.url)
+        
+        self.assertEqual(response.status_code, HTTPStatus.FOUND)
+        # Redireciona para a URL correta
+        self.assertRedirects(response, expected_url='/accounts/login/?next=/posts/create_post/')

@@ -1,21 +1,24 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <h1>Bem vindo ao blog</h1>
-    <h2>Esses são os últimos posts</h2>
-    {% if user.is_authenticated %}
-        <h3>Bem vindo(a) {{ request.user }}</h3>
-    {% endif %}
-    
-
-    {% for post in posts %}
-        <div class="post">
-            <a href="{% url 'posts:post-detail' post.id %}">{{ post.title }}</a>
-            <p>{{ post.body|truncatewords:30 }}</p>
-            <p>Postado por: <a href="">{{ post.author }}</a></p>
-            <small> {{ post.created_at }}</p></small>
-            <hr>
+    <div class="text text-center p-4 p-md-5 mb-4 rounded text-bg-dark">
+        <div class="text text-center col-md-6 px-0">
+          <h1 class="display-4 fst-italic">Bem vindo ao Blog TDD-Django</h1>
+          <p class="lead my-3">
+            Essa é uma aplicação simples criada enquanto estou aprendendo TDD com Django 
+          </p>
         </div>
+      </div>
+    
+    {% for post in posts %}
+        <article class="blog-post">
+            <h2 class="blog-post-title mb-1"><a href="{% url 'posts:post-detail' post.id %}"> {{ post.title }}</a></h2>
+            <p class="blog-post-meta">{{ post.created_at }} por <a href="#">{{ post.author }}</a></p>
+            <p>
+              {{ post.body|truncatewords:30 }}
+            </p>
+            <hr />
+          </article>
     {% endfor %}
 
 {% endblock content %}
