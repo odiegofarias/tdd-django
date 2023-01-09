@@ -2,6 +2,8 @@ from django.shortcuts import render, redirect
 from .forms import UserRegistrationForm
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import authenticate, login, logout
+from posts.models import Post
+from django.contrib.auth.decorators import login_required
 
 
 def register_view(request):
@@ -48,3 +50,15 @@ def logout_page(request):
     logout(request)
 
     return redirect('posts:index')
+
+@login_required
+def current_user_profile(request):
+    user = request.user
+    posts = Post.objects.filter(author=user).all().order_by('-created_at')
+
+    context = {
+        'user': user,
+        'posts': posts
+    }
+
+    return render(request, 'accounts/profile.html', context)
